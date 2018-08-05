@@ -23,7 +23,7 @@ def get_games():
 def get_bundle():
     games=get_games()
     message=list()
-    message.append("Games availble in the bundle right now are: ")
+    message.append("*Games availble in the bundle right now are:*")
 
     game_names=""
     for game in games:
