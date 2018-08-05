@@ -22,11 +22,13 @@ def get_games():
 
 def get_bundle():
     games=get_games()
-    message="Games availble in the bundle right now are: "
+    message=list()
+    message.append("Games availble in the bundle right now are: ")
 
+    game_names=""
     for game in games:
-        message+=game+", "
+        game_names+=game+", "
 
-    message =message[:-2] #remove ", " from the end
-    message+="   here is the link: " + "https://www.humblebundle.com/games/"
+    message.append(game_names[:-2])
+    message.append("here is the link: " + "https://www.humblebundle.com/games/")
     return message
