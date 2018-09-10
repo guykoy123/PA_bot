@@ -66,14 +66,14 @@ def get_current_bundles():
         message.append(b.get_time_left())
         message.append(b.get_link())
         message.append(" ")
-
+    driver.quit() #ends WebDriver session gracefullly
     return message
 
 
 """def get_games():
-    """
-    #checks for game bundles on humble bundles
-    """
+"""
+#checks for game bundles on humble bundles
+"""
     #TODO: return readable message with more info (like link,price,images,time)
     res=requests.get("https://www.humblebundle.com/games/")
     soup=bs4.BeautifulSoup(res.text,'html.parser')

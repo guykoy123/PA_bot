@@ -12,23 +12,24 @@ import datetime
 #   s= [contact.text for contact in contacts] #extracts chats and last messsages
 #   print (s[::2]) #print only chat names
 
-#dictionary of availble commands and their code
-commands={"date": get_date,"scream":scream,"set reminder":set_reminder,"get bundles":H_B_checker.get_current_bundles}
+
 bot_name="shit.py"
 message_class="message-out" #use message_out when checking your own messages (useful when you do not have a burner phone) if able to get another phone use message_in (this way client will notifications and will be easier to read and use)
 scheduled_messages=list()
+quit=False #state of the bot, if set to true the bot is not running
 
 #driver needs to be public so it is declared here
 driver = webdriver.Chrome('C:\Python36\chromedriver.exe')
 driver.get('https://web.whatsapp.com')#connect to the website
 
 def scheduled_sender():
-    while(True):
+    while(not quit):
         if (scheduled_messages):
             for message in scheduled_messages:
                 if (message.get_time()>= time.localtime()):
                     send_message(message.get_message())
                     scheduled_messages.remove(message)
+
 
 def set_reminder():
     send_message("Set reminder time")
@@ -78,6 +79,10 @@ def send_message(message):
 
 
 def Bot():
+
+    #dictionary of availble commands and their code
+    commands={"date": get_date,"scream":scream,"set reminder":set_reminder,"get bundles":H_B_checker.get_current_bundles}
+
     answer="n"
     while (answer.lower() != "y"):
         answer=input("Can i start? (Y/n)")
@@ -99,7 +104,10 @@ def Bot():
 
             elif(last_message.get_message().lower()=="quit"): #check if command is quit
                 send_message("shutting down....") #send notification about shutting down
-                #TODO: add closing of the browser
+                driver.quit() #ends WebDriver session gracefullly
+                global quit
+                quit=True #set wuit to to signal shutting down
+                t.join() #wait for the thread to close
                 exit() #shut down bot
 
             else: #if command is not 'help' or 'quit'
