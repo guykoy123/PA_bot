@@ -3,3 +3,6 @@
 
 #ignore .pyc
 *.pyc
+
+#ignore testing file shit.py
+shit.py
