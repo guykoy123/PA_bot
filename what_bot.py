@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from threading import Lock
 from Message_classes import *
 from time import sleep
+
 class what_bot:
     name="" #bot name
     message_class=None #use message-out when checking your own messages (useful when you do not have a burner phone)
@@ -12,6 +13,8 @@ class what_bot:
     driver_Lock=Lock() #driver lock to prevent multiple concurent uses
     quit=False #state of the bot, if set to true the bot is not running
 
+    #TODO: add abily to select chat
+    #FIXME: add a safe shutdown when exception is raised
     def __init__(self,bot_name,message_type):
         """
         create a new instance of what_bot
@@ -27,6 +30,7 @@ class what_bot:
         self.driver = webdriver.Chrome('C:\Python36\chromedriver.exe') #launch chrome driver
         self.driver.get('https://web.whatsapp.com') #connect to the website
 
+
     def get_contacts_list(self):
         """
         returns list of all contact names
@@ -35,6 +39,7 @@ class what_bot:
         s= [contact.text for contact in contacts] #extracts chats and last messsages
         print ("get contacts: "+str(s)) #print only chat names
         return s[::2] #returns only chat names
+
 
     def get_last_message(self):
         """
@@ -66,7 +71,6 @@ class what_bot:
                 print(exc)
                 sleep(1)
 
-
         if(isinstance(message,str)): #check if the message is of type string
             whatsapp_msg.send_keys(message) #input message
             whatsapp_msg.send_keys(Keys.SHIFT+Keys.ENTER) #create new line
@@ -95,5 +99,5 @@ class message_type_error(Exception):
         self.given_type=given_type
 
     def __str__(self):
-        error_str="Message type wasn't set to \"message-out\" or \"message-in\". You gave {}".format(self.given_type)
+        error_str="Message type wasn't set to \"message-out\" or \"message-in\". You gave \"{}\"".format(self.given_type)
         return error_str

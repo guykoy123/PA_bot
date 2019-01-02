@@ -12,7 +12,7 @@ import what_bot
 
 def main():
 
-    bot=what_bot.what_bot("shit.py","message-out")
+    bot=what_bot.what_bot("shit.py","messagout")
     print("created instance of bot")
 
     #dictionary of availble commands and their code
